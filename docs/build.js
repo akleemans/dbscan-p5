@@ -3,8 +3,6 @@ var colors = [
 ];
 var Point = (function () {
     function Point(x, y, visited, noise, clusterId) {
-        if (visited === void 0) { visited = false; }
-        if (noise === void 0) { noise = false; }
         this.x = x;
         this.y = y;
         this.visited = visited;
@@ -16,188 +14,13 @@ var Point = (function () {
 var MIN_PTS = 3;
 var EPSILON = 20;
 var CLUSTERING_DONE = false;
-var examplePoints = [
-    {
-        "x": 138,
-        "y": 110,
-        "visited": false,
-        "noise": false,
-    },
-    {
-        "x": 137,
-        "y": 127,
-        "visited": false,
-        "noise": false
-    },
-    {
-        "x": 125,
-        "y": 119,
-        "visited": false,
-        "noise": false
-    },
-    {
-        "x": 125,
-        "y": 104,
-        "visited": false,
-        "noise": false
-    },
-    {
-        "x": 154,
-        "y": 74,
-        "visited": false,
-        "noise": false
-    },
-    {
-        "x": 157,
-        "y": 84,
-        "visited": false,
-        "noise": false
-    },
-    {
-        "x": 165,
-        "y": 76,
-        "visited": false,
-        "noise": false
-    },
-    {
-        "x": 169,
-        "y": 85,
-        "visited": false,
-        "noise": false
-    },
-    {
-        "x": 163,
-        "y": 96,
-        "visited": false,
-        "noise": false
-    },
-    {
-        "x": 179,
-        "y": 98,
-        "visited": false,
-        "noise": false
-    },
-    {
-        "x": 177,
-        "y": 107,
-        "visited": false,
-        "noise": false
-    },
-    {
-        "x": 112,
-        "y": 178,
-        "visited": false,
-        "noise": false
-    },
-    {
-        "x": 130,
-        "y": 218,
-        "visited": false,
-        "noise": false
-    },
-    {
-        "x": 51,
-        "y": 239,
-        "visited": false,
-        "noise": false
-    },
-    {
-        "x": 63,
-        "y": 221,
-        "visited": false,
-        "noise": false
-    },
-    {
-        "x": 44,
-        "y": 219,
-        "visited": false,
-        "noise": false
-    },
-    {
-        "x": 46,
-        "y": 208,
-        "visited": false,
-        "noise": false
-    },
-    {
-        "x": 57,
-        "y": 208,
-        "visited": false,
-        "noise": false
-    },
-    {
-        "x": 89,
-        "y": 94,
-        "visited": false,
-        "noise": false
-    },
-    {
-        "x": 81,
-        "y": 111,
-        "visited": false,
-        "noise": false
-    },
-    {
-        "x": 77,
-        "y": 128,
-        "visited": false,
-        "noise": false
-    },
-    {
-        "x": 70,
-        "y": 119,
-        "visited": false,
-        "noise": false
-    },
-    {
-        "x": 71,
-        "y": 94,
-        "visited": false,
-        "noise": false
-    },
-    {
-        "x": 89,
-        "y": 76,
-        "visited": false,
-        "noise": false
-    },
-    {
-        "x": 65,
-        "y": 109,
-        "visited": false,
-        "noise": false
-    },
-    {
-        "x": 70,
-        "y": 79,
-        "visited": false,
-        "noise": false
-    },
-    {
-        "x": 96,
-        "y": 59,
-        "visited": false,
-        "noise": false
-    },
-    {
-        "x": 99,
-        "y": 72,
-        "visited": false,
-        "noise": false
-    },
-    {
-        "x": 118,
-        "y": 50,
-        "visited": false,
-        "noise": false
-    },
-    {
-        "x": 104,
-        "y": 67,
-        "visited": false,
-        "noise": false
-    }
-];
+var examplePoints = [{ x: 138, y: 110 }, { x: 137, y: 127 }, { x: 125, y: 119 }, { x: 125, y: 104 }, { x: 154, y: 74 },
+    { x: 157, y: 84 }, { x: 165, y: 76 }, { x: 169, y: 85 }, { x: 163, y: 96 }, { x: 179, y: 98 }, { x: 177, y: 107 },
+    { x: 112, y: 178 }, { x: 130, y: 218 }, { x: 51, y: 239 }, { x: 63, y: 221 }, { x: 44, y: 219 }, { x: 46, y: 208 },
+    { x: 57, y: 208 }, { x: 89, y: 94 }, { x: 81, y: 111 }, { x: 77, y: 128 }, { x: 70, y: 119 }, { x: 71, y: 94 }, { x: 89, y: 76 },
+    { x: 65, y: 109 }, { x: 70, y: 79 }, { x: 96, y: 59 }, { x: 99, y: 72 }, { x: 118, y: 50 }, { x: 104, y: 67 }, { x: 108, y: 194 },
+    { x: 123, y: 201 }, { x: 127, y: 179 }, { x: 65, y: 232 }, { x: 103, y: 47 }, { x: 173, y: 21 }, { x: 130, y: 185 },
+    { x: 108, y: 204 }];
 var points = examplePoints;
 var w = 650;
 var h = 400;
@@ -221,7 +44,7 @@ var clusterPoints = function () {
     }
     MIN_PTS = +document.getElementById('min-pts').value;
     EPSILON = +document.getElementById('epsilon').value;
-    console.log('Start clustering ', points, 'with MIN_PTS=', MIN_PTS, 'EPSILON=', EPSILON);
+    console.log('Start clustering with MIN_PTS=', MIN_PTS, 'EPSILON=', EPSILON);
     var clusterId = 0;
     for (var _i = 0, points_1 = points; _i < points_1.length; _i++) {
         var point_2 = points_1[_i];
@@ -239,6 +62,7 @@ var clusterPoints = function () {
         }
     }
     CLUSTERING_DONE = true;
+    console.log('Points:', points.map(function (p) { return "{x: ".concat(p.x, ", y: ").concat(p.y, "}"); }).join(', '));
 };
 var clearClustering = function () {
     points.forEach(function (p) {
@@ -299,7 +123,6 @@ function mouseClicked(event) {
     var pos = getMousePos(canvas, event);
     if (pos.x >= 0 && pos.x < w && pos.y > 0 && pos.y < h) {
         points.push(pos);
-        console.log('Current points:', points);
     }
 }
 //# sourceMappingURL=../src/src/build.js.map

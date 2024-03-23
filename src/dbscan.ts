@@ -1,3 +1,4 @@
+// Colors by Sasha Trubetskoy: https://sashamaps.net/docs/resources/20-colors/
 const colors = [
     '#e6194B', '#3cb44b', '#ffe119', '#4363d8', '#f58231', '#911eb4', '#42d4f4', '#f032e6', '#bfef45', '#fabed4', '#469990', '#dcbeff', '#9A6324', '#fffac8', '#800000', '#aaffc3', '#808000', '#ffd8b1', '#000075', '#a9a9a9', '#ffffff', '#000000'
 ];
@@ -6,8 +7,8 @@ class Point {
     public constructor(
         public x: number,
         public y: number,
-        public visited = false,
-        public noise = false,
+        public visited?: boolean,
+        public noise?: boolean,
         public clusterId?: number
     ) {
     }
@@ -19,188 +20,14 @@ let EPSILON = 20;
 
 let CLUSTERING_DONE = false;
 
-const examplePoints: Point[] = [
-    {
-        "x": 138,
-        "y": 110,
-        "visited": false,
-        "noise": false,
-    },
-    {
-        "x": 137,
-        "y": 127,
-        "visited": false,
-        "noise": false
-    },
-    {
-        "x": 125,
-        "y": 119,
-        "visited": false,
-        "noise": false
-    },
-    {
-        "x": 125,
-        "y": 104,
-        "visited": false,
-        "noise": false
-    },
-    {
-        "x": 154,
-        "y": 74,
-        "visited": false,
-        "noise": false
-    },
-    {
-        "x": 157,
-        "y": 84,
-        "visited": false,
-        "noise": false
-    },
-    {
-        "x": 165,
-        "y": 76,
-        "visited": false,
-        "noise": false
-    },
-    {
-        "x": 169,
-        "y": 85,
-        "visited": false,
-        "noise": false
-    },
-    {
-        "x": 163,
-        "y": 96,
-        "visited": false,
-        "noise": false
-    },
-    {
-        "x": 179,
-        "y": 98,
-        "visited": false,
-        "noise": false
-    },
-    {
-        "x": 177,
-        "y": 107,
-        "visited": false,
-        "noise": false
-    },
-    {
-        "x": 112,
-        "y": 178,
-        "visited": false,
-        "noise": false
-    },
-    {
-        "x": 130,
-        "y": 218,
-        "visited": false,
-        "noise": false
-    },
-    {
-        "x": 51,
-        "y": 239,
-        "visited": false,
-        "noise": false
-    },
-    {
-        "x": 63,
-        "y": 221,
-        "visited": false,
-        "noise": false
-    },
-    {
-        "x": 44,
-        "y": 219,
-        "visited": false,
-        "noise": false
-    },
-    {
-        "x": 46,
-        "y": 208,
-        "visited": false,
-        "noise": false
-    },
-    {
-        "x": 57,
-        "y": 208,
-        "visited": false,
-        "noise": false
-    },
-    {
-        "x": 89,
-        "y": 94,
-        "visited": false,
-        "noise": false
-    },
-    {
-        "x": 81,
-        "y": 111,
-        "visited": false,
-        "noise": false
-    },
-    {
-        "x": 77,
-        "y": 128,
-        "visited": false,
-        "noise": false
-    },
-    {
-        "x": 70,
-        "y": 119,
-        "visited": false,
-        "noise": false
-    },
-    {
-        "x": 71,
-        "y": 94,
-        "visited": false,
-        "noise": false
-    },
-    {
-        "x": 89,
-        "y": 76,
-        "visited": false,
-        "noise": false
-    },
-    {
-        "x": 65,
-        "y": 109,
-        "visited": false,
-        "noise": false
-    },
-    {
-        "x": 70,
-        "y": 79,
-        "visited": false,
-        "noise": false
-    },
-    {
-        "x": 96,
-        "y": 59,
-        "visited": false,
-        "noise": false
-    },
-    {
-        "x": 99,
-        "y": 72,
-        "visited": false,
-        "noise": false
-    },
-    {
-        "x": 118,
-        "y": 50,
-        "visited": false,
-        "noise": false
-    },
-    {
-        "x": 104,
-        "y": 67,
-        "visited": false,
-        "noise": false
-    }
-];
+const examplePoints: Point[] = [{x: 138, y: 110}, {x: 137, y: 127}, {x: 125, y: 119}, {x: 125, y: 104}, {x: 154, y: 74},
+    {x: 157, y: 84}, {x: 165, y: 76}, {x: 169, y: 85}, {x: 163, y: 96}, {x: 179, y: 98}, {x: 177, y: 107},
+    {x: 112, y: 178}, {x: 130, y: 218}, {x: 51, y: 239}, {x: 63, y: 221}, {x: 44, y: 219}, {x: 46, y: 208},
+    {x: 57, y: 208}, {x: 89, y: 94}, {x: 81, y: 111}, {x: 77, y: 128}, {x: 70, y: 119}, {x: 71, y: 94}, {x: 89, y: 76},
+    {x: 65, y: 109}, {x: 70, y: 79}, {x: 96, y: 59}, {x: 99, y: 72}, {x: 118, y: 50}, {x: 104, y: 67}, {x: 108, y: 194},
+    {x: 123, y: 201}, {x: 127, y: 179}, {x: 65, y: 232}, {x: 103, y: 47}, {x: 173, y: 21}, {x: 130, y: 185},
+    {x: 108, y: 204}];
+
 let points: Point[] = examplePoints;
 
 const w = 650;
@@ -230,7 +57,7 @@ const clusterPoints = (): void => {
     }
     MIN_PTS = +(document.getElementById('min-pts') as HTMLInputElement).value;
     EPSILON = +(document.getElementById('epsilon') as HTMLInputElement).value;
-    console.log('Start clustering ', points, 'with MIN_PTS=', MIN_PTS, 'EPSILON=', EPSILON)
+    console.log('Start clustering with MIN_PTS=', MIN_PTS, 'EPSILON=', EPSILON)
 
     // Cluster points using DBscan
     let clusterId = 0
@@ -248,6 +75,7 @@ const clusterPoints = (): void => {
         }
     }
     CLUSTERING_DONE = true;
+    console.log('Points:', points.map(p => `{x: ${p.x}, y: ${p.y}}`).join(', '));
 };
 
 const clearClustering = (): void => {
@@ -319,6 +147,5 @@ function mouseClicked(event?: any): void {
 
     if (pos.x >= 0 && pos.x < w && pos.y > 0 && pos.y < h) {
         points.push(pos)
-        console.log('Current points:', points);
     }
 }
