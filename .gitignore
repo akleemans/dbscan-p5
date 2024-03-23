@@ -4,5 +4,4 @@ out/
 
 # P5 build
 node_modules/
-build/
 **/*.js.map

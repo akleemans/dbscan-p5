@@ -1,8 +1,3 @@
-enum State {
-    input,
-    running
-}
-
 const colors = [
     '#e6194B', '#3cb44b', '#ffe119', '#4363d8', '#f58231', '#911eb4', '#42d4f4', '#f032e6', '#bfef45', '#fabed4', '#469990', '#dcbeff', '#9A6324', '#fffac8', '#800000', '#aaffc3', '#808000', '#ffd8b1', '#000075', '#a9a9a9', '#ffffff', '#000000'
 ];
@@ -207,7 +202,6 @@ const examplePoints: Point[] = [
     }
 ];
 let points: Point[] = examplePoints;
-let state: State = State.input;
 
 const w = 650;
 const h = 400;
@@ -323,7 +317,7 @@ function mouseClicked(event?: any): void {
     const canvas = document.getElementsByTagName('canvas')[0];
     const pos = getMousePos(canvas, event);
 
-    if (state === State.input && pos.x >= 0 && pos.x < w && pos.y > 0 && pos.y < h) {
+    if (pos.x >= 0 && pos.x < w && pos.y > 0 && pos.y < h) {
         points.push(pos)
         console.log('Current points:', points);
     }
