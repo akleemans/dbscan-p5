@@ -1,0 +1,18 @@
+<html lang="en">
+<head>
+  <title>DBSCAN demo</title>
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.9.2/lib/p5.js"></script>
+  <script src="build/build.js"></script>
+</head>
+<body>
+<div id="canvasDiv" style="border: 1px solid black;"></div>
+<p>
+  <label for="min-pts">Min Points: </label><input type="number" id="min-pts" value="3"><br>
+  <label for="epsilon">Epsilon: </label><input type="number" id="epsilon" value="20">
+</p>
+<button onclick="clusterPoints()">Cluster</button>
+<button onclick="clearClustering()">Clear clustering</button>
+<button onclick="resetPoints()">Clear points</button>
+<button onclick="randomPoints()">Random</button>
+</body>
+</html>
