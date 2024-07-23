@@ -5,7 +5,10 @@
     <script src="./build.js"></script>
 </head>
 <body>
+
+<h3>DBSCAN demo</h3>
 <div id="canvasDiv" style="width: fit-content; border: 1px solid black;"></div>
+<p>Click on the canvas to add points. Click on a point to delete it.</p>
 <p>
     <label for="min-pts">Min Points: </label><input type="number" id="min-pts" value="3"><br>
     <label for="epsilon">Epsilon: </label><input type="number" id="epsilon" value="20">
@@ -14,5 +17,11 @@
 <button onclick="clearClustering()">Clear clustering</button>
 <button onclick="resetPoints()">Clear points</button>
 <button onclick="randomPoints()">Random</button>
+
+<h3>Load example</h3>
+<img onclick="loadExample(0, 3, 45)" style="height: 100px;" src="./example0.png" alt="Example 0">
+<img onclick="loadExample(1, 5, 50)" style="height: 100px;" src="./example1.png" alt="Example 1">
+<img onclick="loadExample(2, 3, 30)" style="height: 100px;" src="./example2.png" alt="Example 2">
+<img onclick="loadExample(3, 10, 50)" style="height: 100px;" src="./example3.png" alt="Example 3">
 </body>
 </html>

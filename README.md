@@ -6,4 +6,3 @@ Made with [P5](https://p5js.org/).
 [Try it out here!](https://akleemans.github.io/dbscan-p5/)
 
 <img src="clustering.png" alt="clustering">
-
